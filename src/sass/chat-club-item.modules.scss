@@ -1,0 +1,25 @@
+.chat-item {
+   border: 2px solid var(--secondary-bg);
+   .bookmark-icon {
+      right: 15px;
+   }
+   .club-icon {
+      svg {
+         width: 20px;
+         height: 20px;
+         stroke: var(--secondary-bg);
+      }
+   }
+
+   .joinded-user-image {
+      border: 2px solid var(--secondary-bg);
+   }
+   button {
+      background: var(--secondary-bg);
+   }
+   .chat-club-mamber {
+      bottom: -13px;
+      left: 15px;
+      font-size: 10px;
+   }
+}

@@ -1,0 +1,16 @@
+.chat {
+   &-container {
+      // max-width: 1200px;
+      width: 95%;
+      margin: auto;
+   }
+   &-aside {
+      background: var(--dark-light-bg);
+      width: 320px;
+   }
+   &-club-section {
+      background: var(--dark-light-bg);
+      width: calc(100% - 320px - 30px);
+      margin-left: auto;
+   }
+}

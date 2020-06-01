@@ -1,0 +1,25 @@
+
+.chat-items {
+	& {
+	    scrollbar-width: thin;
+	    scrollbar-color: var(--dark-bg) transparent;
+	}
+
+	/* Works on Chrome/Edge/Safari */
+	&::-webkit-scrollbar {
+	    width: 10px;
+	}
+	&::-webkit-scrollbar-track {
+	    background: transparent;
+	}
+	&::-webkit-scrollbar-thumb {
+	    background-color: var(--dark-bg);
+	    border-radius: 20px;
+	}
+}
+
+.send-message-box-icon {
+	top: 50%;
+	transform: translatey(-50%);
+	left: 10px;
+}
