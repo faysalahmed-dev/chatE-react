@@ -1,0 +1,102 @@
+@font-face {
+  font-family: 'Quick Sand';
+  src: url("../assets/font-family/Quicksand-Medium.ttf") format("truetype"), url("../assets/font-family/Quicksand-Medium.woff") format("woff"), url("../assets/font-family/Quicksand-Medium.woff2") format("woff2");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Quick Sand';
+  src: url("../assets/font-family/Quicksand-Bold.ttf") format("truetype"), url("../assets/font-family/Quicksand-Bold.woff") format("woff"), url("../assets/font-family/Quicksand-Bold.woff2") format("woff2");
+  font-weight: 700;
+}
+
+:root {
+  --dark-light-bg: #353b50;
+  --dark-bg: #2b2e44;
+  --warn: #fe9f39;
+  --error: #f94748;
+  --secondary-bg: #866ce4;
+  --input-bg: #3f4450;
+  --app-font-family: 'Quick Sand', sans-serif;
+  --app-font-color: rgba(255, 255, 255, 0.7);
+  --aside-width: 340px;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--app-font-color);
+  background: var(--dark-bg);
+}
+
+.icon-container svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2;
+}
+
+.active-user-item {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: auto 1fr 60px;
+      grid-template-columns: auto 1fr 60px;
+  -ms-grid-rows: (1fr)[2];
+      grid-template-rows: repeat(2, 1fr);
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  grid-gap: 0 10px;
+}
+
+.active-user-item .image {
+  grid-row: 1 / -1;
+}
+
+.active-user-item .user-message {
+  -ms-grid-column: 2;
+  -ms-grid-column-span: 1;
+  grid-column: 2/3;
+}
+
+.active-user-item .time {
+  -ms-grid-column: 3;
+  grid-column: 3;
+  grid-row: 1/ -1;
+}
+
+.dot-green {
+  background: #12e5e5;
+  border: 1px solid #fff;
+}
+
+.dark-light-bg {
+  background: var(--dark-light-bg);
+}
+
+.dark-bg {
+  background: var(--dark-bg);
+}
+
+.secondary-bg {
+  background: var(--secondary-bg);
+}
+
+.border-primary-1 {
+  border: 1px solid var(--secondary-bg);
+}
+
+.border-primary-2 {
+  border: 2px solid var(--secondary-bg);
+}
+
+.input-focus:focus {
+  outline: 1px solid #2c5282;
+}
+/*# sourceMappingURL=styles.css.map */

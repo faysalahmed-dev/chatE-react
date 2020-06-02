@@ -1,0 +1,16 @@
+.chat-container {
+  width: 95%;
+  margin: auto;
+}
+
+.chat-aside {
+  background: var(--dark-light-bg);
+  width: 320px;
+}
+
+.chat-club-section {
+  background: var(--dark-light-bg);
+  width: calc(100% - 320px - 30px);
+  margin-left: auto;
+}
+/*# sourceMappingURL=dashboard.modules.css.map */

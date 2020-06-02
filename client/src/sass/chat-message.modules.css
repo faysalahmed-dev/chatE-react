@@ -1,0 +1,29 @@
+.chat-items {
+  /* Works on Chrome/Edge/Safari */
+}
+
+.chat-items {
+  scrollbar-width: thin;
+  scrollbar-color: var(--dark-bg) transparent;
+}
+
+.chat-items::-webkit-scrollbar {
+  width: 10px;
+}
+
+.chat-items::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-items::-webkit-scrollbar-thumb {
+  background-color: var(--dark-bg);
+  border-radius: 20px;
+}
+
+.send-message-box-icon {
+  top: 50%;
+  -webkit-transform: translatey(-50%);
+          transform: translatey(-50%);
+  left: 10px;
+}
+/*# sourceMappingURL=chat-message.modules.css.map */
