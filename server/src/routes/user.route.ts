@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { loginUser, logoutUser, registerUser } from '@/controllers/user.ctrl';
+import { loginUser, logoutUser, registerUser, getMe } from '@/controllers/user.ctrl';
 
 import { validateInput } from '@/middlewere/validate';
 
@@ -15,12 +15,7 @@ import User from '@/model/user';
 const router = express.Router();
 
 //==>  /user/register
-
-router.get('/', isAuthenticated, async (req, res, next) => {
-    const user = await User.find({});
-    res.json(user);
-});
-
+router.get('/auth-user',isAuthenticated, getMe)
 router.post('/register', singupBodyValidate, validateInput, registerUser);
 router.post('/login', loginBodyValidate, validateInput, loginUser);
 

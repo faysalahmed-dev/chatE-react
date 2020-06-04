@@ -1,9 +1,10 @@
 import { Model, Document } from 'mongoose';
 
-interface UserI {
+export interface UserI {
     name: string;
     username: string;
     email: string;
+    avatar: string;
 }
 export interface UserPublicPropertyI extends UserI {
     _id: string;

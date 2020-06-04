@@ -14,6 +14,7 @@ interface Errors extends ErrorRequestHandler {
     message: string;
     status: string;
     statusCode: number;
+    data?: any;
     stack: any;
 }
 
@@ -27,12 +28,14 @@ export default (
     res: Response,
     next: NextFunction
 ) => {
+    console.log(err)
     err.statusCode = err.statusCode || 500;
 
     if (process.env.NODE_ENV === 'development') {
         return sendRes(res, err.statusCode, {
             error: {
                 message: err.message,
+                error: err,
                 errorStack: err.stack,
             },
         });
@@ -41,20 +44,12 @@ export default (
     let error = { ...err } as any;
     error.message = err.message;
     error.statusCode = err.statusCode;
+    if(err.data) error.data = err.data;
 
     if (error.name === 'CastError') error = handleCaseErrorDB(error);
     if (error.code === 11000) error = handleDuplicateFieldsDB(error);
     if (error.name === 'ValidationError') error = handleValidationDB(error);
     if (error.name === 'JsonWebTokenError') error = handleInvalidToken();
     if (error.name === 'TokenExpiredError') error = handleTokenExpired();
-
-    // if (process.env.NODE_ENV === 'production') {
-    //     if (error.statusCode >= 500) {
-    //         logger.error(err.message, err.stack);
-    //     }
-    //     if (error.statusCode >= 400 && error.statusCode < 500) {
-    //         logger.info(err.message, err.stack);
-    //     }
-    // }
-    sendRes(res, error.statusCode, { error: error.message });
+    sendRes(res, error.statusCode, { error });
 };

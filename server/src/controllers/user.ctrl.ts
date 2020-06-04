@@ -1,11 +1,14 @@
+import url from 'url';
+import _ from 'lodash';
 import { Request, Response, NextFunction } from 'express';
 import { validationResult } from 'express-validator';
-import _ from 'lodash';
 import catchError from '../utils/catchError.js';
 import sendResponse from '../utils/sendResponse';
-import User from '@/model/user/index.js';
-import { IReq, UserBody } from '@/ts/interface.js';
+import User from '@/model/user';
+import { UserI, UserPublicPropertyI } from '@/model/user/user.interface'
+import { IReq, UserBody } from '@/ts/interface.js'; 
 import httpError from 'http-errors';
+import isJWT from 'validator/lib/isJWT';
 
 export const registerUser = catchError(
     async (req: IReq<UserBody>, res, next) => {
@@ -17,9 +20,17 @@ export const registerUser = catchError(
         if (hasUser) return next(httpError(403, 'email already taken'));
 
         // if not error create new user
-        const newUser = await User.create(
-            _.pick(req.body, ['name', 'email', 'username', 'password'])
-        );
+
+        const userObj = _.pick(req.body, ['name', 'email', 'username', 'password']) as UserI
+
+        const domain = url.format({
+            protocol: req.protocol,
+            host: req.get('host')
+        })
+
+        userObj.avatar = `${domain}/chat-app-images/default-avatar.png`;
+    
+        const newUser = await User.create(userObj);
 
         // gen new token
         const token = newUser.generateToken();
@@ -58,3 +69,10 @@ export const loginUser = catchError(async (req: IReq<UserBody>, res, next) => {
 export const logoutUser = catchError(async (__, res) => {
     sendResponse(res, 200, { message: 'logout successfully' }, '');
 });
+
+
+export const getMe = catchError(async (req: IReq<{}, UserPublicPropertyI>, res, next) => {
+    // const isValidJwt = isJWT(req.params.token);
+    // if(!isValidJwt) return next(httpError(401, 'invalid credentials'));
+    sendResponse(res,200, { data: req.user })
+})

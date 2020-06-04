@@ -38,8 +38,12 @@ export default new Schema(
         password: {
             type: String,
             required: [true, 'password is required'],
-            minlength: [8, 'password is too short'],
+            minlength: [6, 'password is too short min {{VALUE}} character '],
             select: false,
+        },
+        avatar: {
+            type: String,
+            default: 'chat-app-images/default-avatar.png'
         },
         changePasswordAt: Date,
         groups: {

@@ -42,8 +42,8 @@ export const singupBodyValidate = checkSchema({
             negated: true,
         },
         isLength: {
-            errorMessage: 'password at lest 8 char long',
-            options: { min: 8 },
+            errorMessage: 'password too short min 6 character',
+            options: { min: 6 },
         },
     },
 });
@@ -64,8 +64,8 @@ export const loginBodyValidate = checkSchema({
             negated: true,
         },
         isLength: {
-            errorMessage: 'password at lest 8 char long',
-            options: { min: 8 },
+            errorMessage: 'password too short min 6 character',
+            options: { min: 6 },
         },
     },
 });

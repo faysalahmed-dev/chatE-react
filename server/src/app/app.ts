@@ -1,7 +1,9 @@
 import fs from 'fs';
+import url from 'url';
 import { join } from 'path';
 import express from 'express';
 import morgan from 'morgan';
+import cors from 'cors';
 
 import userRoute from '@/routes/user.route';
 
@@ -16,12 +18,12 @@ if (process.env.NODE_ENV === 'production') {
 } else {
     app.use(morgan('dev'));
 }
-
+app.use(cors())
+app.enable('trust proxy')
 app.use(express.static(join(__dirname, '..', '..', 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// api route
 app.use('/api/v1/user', userRoute);
 
 app.use(ErrorController);
