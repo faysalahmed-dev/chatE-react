@@ -17,8 +17,8 @@ export default (): JSX.Element => {
 		      		Try Now
 		      	</Link>
 		       	<div className="text-sm mt-3">
-		       		<a href="https://github.com/faysal146/chatE-react" target="_blank" className="hover:underline">View Source Code</a>
-					<a href="" className="text-green-500 ml-2 hover:underline">Check out VueJS Version</a>
+		       		<a href="https://github.com/faysal146/chatE-react" target="_blank" rel="noopener noreferrer" className="hover:underline">View Source Code</a>
+					<a href="https://github.com/faysal146/chatE-vue" className="text-green-500 ml-2 hover:underline">Check out VueJS Version</a>
 		       	</div>
 
 		      </div>

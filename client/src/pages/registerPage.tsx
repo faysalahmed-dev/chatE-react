@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import isEmail from 'validator/lib/isEmail';
 import Button from '@/components/button';
 import {Link} from 'react-router-dom'
+
+import useAuth from '@/hooks/useAuthHook';
 
 const init = {
    name: '',
@@ -10,22 +13,18 @@ const init = {
    email: '',
    password: '',
 };
-const onSubmit = (data: any) => {
-   // setFormSubmiting(true)
-   console.log(data)
-}
-
 
 const RegisterPage = () => {
    const {errors,register, handleSubmit} = useForm({defaultValues: init, mode:"onChange"})
-   const [formSubmiting, setFormSubmiting] = useState(false);
+   const { formSubmiting, onSubmit, isAuthenticated } = useAuth()
+   if(isAuthenticated) return <Redirect to="/404"/>
    return (
       <div className='container mx-auto h-full w-full flex justify-center items-center flex-col'>
          <h3 className='capitalize py-4 text-3xl'>Create new account</h3>
          <form
             className='grid grid-cols-1 md:grid-cols-2 mx-auto gap-4 md:w-11/12 w-9/12'
             style={{ maxWidth: '600px' }}
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(onSubmit('user/register'))}
          >
             <div className="flex flex-col relative">
               <label className='mb-2'>Name</label>

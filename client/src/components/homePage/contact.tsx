@@ -13,7 +13,7 @@ export default ():JSX.Element => {
 		    </div>
 		    <div className="lg:w-1/2 px-6 mt-4 lg:mt-0">
 		      <h2 className="title-font font-medium text-white tracking-widest text-sm">EMAIL</h2>
-		      <a className="text-indigo-500 leading-relaxed">fasyalahmed146@gmail.com</a>
+		      <p className="text-indigo-500 leading-relaxed">fasyalahmed146@gmail.com</p>
 		      <h2 className="title-font font-medium text-white tracking-widest text-sm mt-4">PHONE</h2>
 		      <p className="leading-relaxed">+880 01997261058</p>
 		    </div>

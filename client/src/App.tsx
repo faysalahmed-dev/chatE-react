@@ -1,39 +1,50 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { Route, BrowserRouter, Switch } from 'react-router-dom';
-import HomePage from '@/pages/homePage';
-import LoginPage from '@/pages/loginPage';
-import Register from '@/pages/registerPage';
-import DashBoard from '@/pages/dashboardPage';
-import ChatClub from '@/pages/chatClub';
+import React, { useRef, useEffect, useState,useContext } from 'react';
+import { BrowserRouter } from 'react-router-dom';
 
 import NavBar, { headerRef } from '@/components/nav-bar';
+import ToastMessage from '@/components/toast-message';
+import { ToastContext } from '@/context/toastMessage.context';
+import { UserContext } from '@/context/user/user.context';
+import { getAuthUser } from '@/context/user/user.actions'
+import Routes from '@/routes/routes'; 
 
 const App = (): JSX.Element => {
-   const some = useRef(headerRef);
+   const header = useRef(headerRef);
    const [headerHeight, setHeaderHeight] = useState(57);
-
+   const { toastMessage } = useContext(ToastContext);
+   const { setUser, isAuthenticated, authStateLoaded } = useContext(UserContext);
    useEffect(() => {
-      setHeaderHeight(some.current.current!.clientHeight);
+      if(header.current.current) {
+         setHeaderHeight(header.current.current!.clientHeight);
+      }
+      if(!isAuthenticated) {
+         getAuthUser().then((data) => setUser(data))
+      }
    }, []);
+
+   if(!authStateLoaded) return (
+      <div className="w-full h-screen flex items-center justify-center">
+         <div className="dot-spin"></div>
+      </div>
+   )
+
    return (
-      <BrowserRouter>
-         <NavBar />
-         <main
-            className='grid'
-            style={{
-               marginTop: `${headerHeight}px`,
-               minHeight: `calc(100vh - ${`${headerHeight}px`})`,
-            }}
-         >
-            <Switch>
-               <Route path='/login' component={LoginPage} />
-               <Route path='/register' component={Register} />
-               <Route path='/dashboard' component={DashBoard} />
-               <Route path='/group/:groupName' component={ChatClub} />
-               <Route path='/' component={HomePage} />
-            </Switch>
-         </main>
-      </BrowserRouter>
+         <BrowserRouter>
+            {
+               toastMessage.status && 
+                  <ToastMessage type={toastMessage.type}>
+                     {toastMessage.message}
+                  </ToastMessage>
+            }
+            <NavBar />
+            <main className='grid' style={{
+                  marginTop: `${headerHeight}px`,
+                  minHeight: `calc(100vh - ${`${headerHeight}px`})`,
+               }}
+            >
+               <Routes isAuthenticated={isAuthenticated}/>
+            </main>
+         </BrowserRouter>
    );
 };
 

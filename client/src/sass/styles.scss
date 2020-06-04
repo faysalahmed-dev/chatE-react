@@ -34,6 +34,13 @@ body {
    color: var(--app-font-color);
    background: var(--dark-bg);
 }
+
+button {
+   &:focus {
+      outline: none;
+   }
+}
+
 .icon-container {
    svg {
       width: 20px;
