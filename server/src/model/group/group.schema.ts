@@ -2,12 +2,12 @@ import { Schema } from 'mongoose';
 
 export default new Schema(
     {
-        name: {
+        groupname: {
             type: String,
             trim: true,
-            required: [true, 'club name required'],
+            required: [true, 'group name required'],
         },
-        country: {
+        location: {
             type: String,
             trim: true,
             required: [true, 'group country required'],
@@ -17,14 +17,23 @@ export default new Schema(
             trim: true,
             default: 'default.jpg',
         },
+        groupType: {
+            type: String,
+            enum: ['private', 'public'],
+            default: 'private',
+        },
+        slug: String,
         fans: [{ type: Schema.Types.ObjectId, ref: 'User' }],
         admin: {
             type: Schema.Types.ObjectId,
-            required: [true, 'club should have admin'],
+            ref: 'User',
+            required: [true, 'group should have admin'],
         },
     },
     {
         autoIndex: true,
         timestamps: true,
+        toJSON: { virtuals: true },
+        toObject: { virtuals: true },
     }
 );

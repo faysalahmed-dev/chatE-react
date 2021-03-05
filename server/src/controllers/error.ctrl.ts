@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign */
+import httpError from 'http-errors';
 import { Request, Response, ErrorRequestHandler, NextFunction } from 'express';
 // import logger from '../startup/winston.config';
 import sendRes from '../utils/sendResponse';
@@ -28,10 +28,10 @@ export default (
     res: Response,
     next: NextFunction
 ) => {
-    console.log(err)
     err.statusCode = err.statusCode || 500;
 
     if (process.env.NODE_ENV === 'development') {
+        console.log(err);
         return sendRes(res, err.statusCode, {
             error: {
                 message: err.message,
@@ -44,7 +44,7 @@ export default (
     let error = { ...err } as any;
     error.message = err.message;
     error.statusCode = err.statusCode;
-    if(err.data) error.data = err.data;
+    if (err.data) error.data = err.data;
 
     if (error.name === 'CastError') error = handleCaseErrorDB(error);
     if (error.code === 11000) error = handleDuplicateFieldsDB(error);
@@ -52,4 +52,12 @@ export default (
     if (error.name === 'JsonWebTokenError') error = handleInvalidToken();
     if (error.name === 'TokenExpiredError') error = handleTokenExpired();
     sendRes(res, error.statusCode, { error });
+};
+
+export const unhandleRoute = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    next(httpError(404, req.originalUrl + ' is not found'));
 };

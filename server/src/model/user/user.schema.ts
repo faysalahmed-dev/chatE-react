@@ -41,21 +41,19 @@ export default new Schema(
             minlength: [6, 'password is too short min {{VALUE}} character '],
             select: false,
         },
-        avatar: {
+        avater: {
             type: String,
-            default: 'chat-app-images/default-avatar.png'
+            default: 'chat-app-images/default-avater.png',
         },
         changePasswordAt: Date,
-        groups: {
+        sendRequests: [{ type: SchemaTypes.ObjectId, ref: 'User' }],
+        requests: [{ type: SchemaTypes.ObjectId, ref: 'User' }],
+        friendsList: [{ type: SchemaTypes.ObjectId, ref: 'User' }],
+        favoriteGroups: {
             type: [
                 {
                     type: SchemaTypes.ObjectId,
-                    ref: 'ClubName',
-                    role: {
-                        type: String,
-                        enum: ['USER', 'ADMIN'],
-                        default: 'USER',
-                    },
+                    ref: 'Group',
                 },
             ],
         },

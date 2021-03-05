@@ -1,16 +1,21 @@
 import { Model, Document } from 'mongoose';
+import { GroupI } from '@/model/group/group.interface';
 
-export interface UserI {
+export interface UserDataI {
     name: string;
     username: string;
     email: string;
-    avatar: string;
+    avater: string;
 }
-export interface UserPublicPropertyI extends UserI {
-    _id: string;
+export interface UserI extends UserDataI {
+    id: string;
 }
 
-export interface UserSchemaI extends Document, UserI {
+export interface UserSchemaI extends Document, UserDataI {
+    requests: [UserBaseI | string];
+    sendRequests: [UserBaseI | string];
+    friendsList: [UserBaseI | string];
+    favoriteGroups: [GroupI | string];
     createdAt: string;
     updatedAt: string;
     password: string;

@@ -3,12 +3,12 @@ import httpError from 'http-errors';
 import catchError from '../utils/catchError';
 import User from '@/model/user';
 
-import { IReq } from '../ts/interface';
+import { AuthReq } from '../ts/interface';
 
-import { UserPublicPropertyI } from '@/model/user/user.interface';
+import { UserI } from '@/model/user/user.interface';
 
 export const isAuthenticated = catchError(
-    async (req: IReq<{}, UserPublicPropertyI>, res, next) => {
+    async (req: AuthReq<Omit<UserI, 'id'>>, res, next) => {
         let token: string;
 
         const tokenHeader = req.header('authorization');
@@ -42,6 +42,22 @@ export const isAuthenticated = catchError(
 
         req.user = currentUser;
 
+        next();
+    }
+);
+
+export const isAuthorize = catchError(
+    async (req: AuthReq<Omit<UserI, 'id'>>, res, next) => {
+        const tokenHeader = req.header('authorization');
+
+        if (tokenHeader && tokenHeader.startsWith('Bearer ')) {
+            const token = tokenHeader.replace('Bearer ', '');
+            const { iat, id } = await User.verifyToken(token);
+            const currentUser = await User.findById(id).select('+password');
+            if (currentUser && !currentUser.passwordIsChange(iat)) {
+                req.user = currentUser;
+            }
+        }
         next();
     }
 );

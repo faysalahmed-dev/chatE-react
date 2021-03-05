@@ -1,4 +1,18 @@
-const { checkSchema } = require('express-validator');
+import httpError from 'http-errors';
+import { Request, Response, NextFunction } from 'express';
+
+import { checkSchema } from 'express-validator';
+
+const passSchema = {
+    isEmpty: {
+        errorMessage: 'please provide password',
+        negated: true,
+    },
+    isLength: {
+        errorMessage: 'password too short min 6 character',
+        options: { min: 6 },
+    },
+};
 
 export const singupBodyValidate = checkSchema({
     name: {
@@ -36,16 +50,7 @@ export const singupBodyValidate = checkSchema({
             errorMessage: 'invalid email address',
         },
     },
-    password: {
-        isEmpty: {
-            errorMessage: 'please provide password',
-            negated: true,
-        },
-        isLength: {
-            errorMessage: 'password too short min 6 character',
-            options: { min: 6 },
-        },
-    },
+    password: passSchema,
 });
 
 export const loginBodyValidate = checkSchema({
@@ -58,14 +63,50 @@ export const loginBodyValidate = checkSchema({
             errorMessage: 'invalid email address',
         },
     },
-    password: {
+    password: passSchema,
+});
+
+export const passwordValidate = checkSchema({
+    password: passSchema,
+    newPassword: passSchema,
+});
+
+export const groupCreateValidate = checkSchema({
+    groupname: {
         isEmpty: {
-            errorMessage: 'password required',
+            errorMessage: 'group name required',
             negated: true,
         },
         isLength: {
-            errorMessage: 'password too short min 6 character',
-            options: { min: 6 },
+            errorMessage: 'group name is too short',
+            options: { min: 2 },
+        },
+    },
+    country: {
+        isEmpty: {
+            errorMessage: 'country required',
+            negated: true,
+        },
+    },
+    location: {
+        isEmpty: {
+            errorMessage: 'location required',
+            negated: true,
+        },
+    },
+    groupType: {
+        custom: {
+            errorMessage: 'group type either "public" or "private"',
+            options(value: string) {
+                return ['public', 'private'].includes(value);
+            },
         },
     },
 });
+
+export const checkImage = (req: Request, res: Response, next: NextFunction) => {
+    if (!req.file) {
+        return next(httpError(400, 'image is required'));
+    }
+    next();
+};

@@ -14,7 +14,7 @@ userSchema.pre<UserSchemaI>('save', async function (next) {
             this.password = await bcryptjs.hash(this.password, salt);
         }
         if (this.isModified('password') && !this.isNew)
-            this.changePasswordAt = Date.now();
+            this.changePasswordAt = Date.now() - 1000;
         next();
     } catch (err) {
         next(err);
@@ -28,14 +28,14 @@ userSchema.methods.validatePassword = function (password: string) {
 // generate new webtoken
 userSchema.methods.generateToken = function () {
     const { _id: id, username } = this;
-    return jwt.sign({ id, username }, process.env.JWT_PRIVATE_KEY!, {
+    return jwt.sign({ id, username }, process.env.JWT_PRIVATE_KEY, {
         expiresIn: process.env.JWT_TOKEN_EXPIRIN || '7d',
     });
 };
 
 // verify the token
 userSchema.statics.verifyToken = function (token: string) {
-    return promisify(jwt.verify)(token, process.env.JWT_PRIVATE_KEY!);
+    return promisify(jwt.verify)(token, process.env.JWT_PRIVATE_KEY);
 };
 
 userSchema.methods.passwordIsChange = function (JWTTimeStamp: number) {

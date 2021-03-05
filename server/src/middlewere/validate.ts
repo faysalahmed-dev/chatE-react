@@ -2,7 +2,6 @@ import httpError from 'http-errors';
 import { validationResult } from 'express-validator';
 import { Request, Response, NextFunction } from 'express';
 import _ from 'lodash';
-import sendResponse from '@/utils/sendResponse';
 
 // validate user data when user went to create new account
 export const validateInput = (
@@ -20,7 +19,7 @@ export const validateInput = (
         err[key] = mappedErrors[key].msg;
         return err;
     }, {} as { [key: string]: string });
-    const errorObj = httpError(400,'invalid form values')
-    errorObj.data = error
-    next(errorObj)
+    const errorObj = httpError(400, 'invalid form values');
+    errorObj.data = error;
+    next(errorObj);
 };
