@@ -1,8 +1,7 @@
 import React from 'react';
-
 import user1 from '@/assets/user-image/user-1.jpg';
 
-export default (): JSX.Element => {
+const RecentChatItem: React.FC = (): JSX.Element => {
    return (
       <div
          className='active-user-item p-2 text-sm rounded-md'
@@ -24,3 +23,4 @@ export default (): JSX.Element => {
       </div>
    );
 };
+export default RecentChatItem;

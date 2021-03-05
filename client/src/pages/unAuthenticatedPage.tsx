@@ -1,6 +1,9 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { History } from 'history';
+
+import { isAuthenticatedSelector } from '@/app/selectors/user.selector';
 
 interface HistoryState extends History {
 	from: {
@@ -10,6 +13,11 @@ interface HistoryState extends History {
 
 const UnAuth: React.FC = () => {
 	const { state } = useLocation<HistoryState>();
+	const isAuthenticated = useSelector(isAuthenticatedSelector)
+	if(isAuthenticated) {
+		if(state && state.from) return <Redirect to={state.from.pathname} />
+		else return <Redirect to="/" />
+	}
 	return (
 		<div className="w-full h-full flex flex-col justify-center items-center container mx-auto capitalize">
 			<div>

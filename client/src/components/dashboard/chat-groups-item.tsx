@@ -1,15 +1,29 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { FiStar, FiMapPin, FiPlus } from 'react-icons/fi';
-import '@/sass/chat-club-item.modules.scss';
+import { GroupI } from '@/app/slices/group.slice';
 
-import RealMadriad from '@/assets/club-image/real-madriad.png';
 import user1 from '@/assets/user-image/user-1.jpg';
 import user2 from '@/assets/user-image/user-2.jpg';
 import user3 from '@/assets/user-image/user-3.jpg';
 
-export default ({ style }: { style?: React.CSSProperties }): JSX.Element => {
+import '@/sass/chat-club-item.modules.scss';
+
+interface Props extends GroupI {
+   style?: React.CSSProperties;
+}
+
+const ChatGroupsItem: React.FC<Props> = ({
+   style,
+   slug,
+   location,
+   groupname,
+   image,
+   groupType,
+}): JSX.Element => {
    return (
-      <div
+      <Link
+         to={`/group/${slug}`}
          className='relative p-3 rounded-lg chat-item inline-block'
          style={style}
       >
@@ -17,18 +31,18 @@ export default ({ style }: { style?: React.CSSProperties }): JSX.Element => {
             <FiStar />
          </span>
          <div className='w-24 h-32 mx-auto'>
-            <img src={RealMadriad} alt='Real Madriad' />
+            <img src={image} alt='Real Madriad' />
          </div>
          <div className='mt-3'>
-            <h5 className='text-center font-bold text-2xl'>Real Madrid</h5>
+            <h5 className='text-center font-bold text-2xl'>{groupname}</h5>
             <div className='text-center mt-2'>
                <div className='flex items-center justify-center'>
                   <span className='inline-block mr-2 club-icon'>
                      <FiMapPin />
                   </span>
-                  <span>Madrid, Spian</span>
+                  <span>{location}</span>
                </div>
-               <span className='block text-sm'>public</span>
+               <span className='block text-sm'>{groupType}</span>
             </div>
             <div className='flex justify-between items-center mt-4'>
                <div className='inline-flex flex-wrap relative -space-x-3 relative'>
@@ -66,6 +80,8 @@ export default ({ style }: { style?: React.CSSProperties }): JSX.Element => {
                </button>
             </div>
          </div>
-      </div>
+      </Link>
    );
 };
+
+export default ChatGroupsItem;

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Button from '@/components/button';
 import InputGroup from '@/components/input-group';
 import { FiPlus, FiSearch, FiChevronDown } from 'react-icons/fi';
-import RecentChatItems from '@/components/recent-chat-item';
+import RecentChatItems from '@/components/dashboard/recent-chat-item';
 
 const ReacentChatItemContianer = styled.div`
    max-height: 340px;
